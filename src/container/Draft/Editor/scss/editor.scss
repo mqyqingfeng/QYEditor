@@ -1,0 +1,106 @@
+/*
+* @Author: kevin
+* @Date:   2016-12-30 17:00:08
+* @Last Modified by:   kevin
+* @Last Modified time: 2017-01-14 23:27:13
+*/
+
+.editor-icon {
+    font-family: "iconfont" !important;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;/*no*/
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-transition: font-size 0.25s ease-out 0s;
+    -moz-transition: font-size 0.25s ease-out 0s;
+    transition: font-size 0.25s ease-out 0s;
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+@import "fontSize.scss";
+
+@font-face {
+  font-family: 'iconfont';  /* project id 219379 */
+  src: url('//at.alicdn.com/t/font_d6uflj47erpy14i.eot');
+  src: url('//at.alicdn.com/t/font_d6uflj47erpy14i.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_d6uflj47erpy14i.woff') format('woff'),
+  url('//at.alicdn.com/t/font_d6uflj47erpy14i.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_d6uflj47erpy14i.svg#iconfont') format('svg');
+}
+
+// 全局重置样式
+ul {
+    list-style: none;
+}
+.hidden {
+    display: none;
+}
+
+.RichEditor-root {
+    background: #fff;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    padding: 25px;
+
+    // ol {
+    //     list-style: decimal outside none;
+    // }
+}
+
+/**
+ * 编辑器包裹层
+ */
+.RichEditor-editor {
+    border-top: 1px solid #ddd;
+    cursor: text;
+    font-size: 16px;
+    margin-top: 10px;
+    min-height: 280px;
+}
+
+.RichEditor-editor .public-DraftEditorPlaceholder-root,
+.RichEditor-editor .public-DraftEditor-content {
+    margin: 0 -15px -15px;
+    padding: 15px;
+}
+
+.RichEditor-editor .public-DraftEditor-content {
+    min-height: 100px;
+}
+
+.RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+    display: none;
+}
+
+.RichEditor-editor .RichEditor-blockquote {
+    border-left: 5px solid #eee;
+    color: #666;
+    font-style: italic;
+    margin: 16px 0;
+    padding: 10px 20px;
+}
+
+.RichEditor-editor .public-DraftStyleDefault-pre {
+    background-color: rgba(0, 0, 0, 0.05);
+    font-size: 16px;
+    padding: 20px;
+}
+
+.RichEditor-controls {
+    font-size: 14px;
+    margin-bottom: 5px;
+    user-select: none;
+}
+
+.RichEditor-styleButton {
+    color: #999;
+    cursor: pointer;
+    margin-right: 16px;
+    padding: 2px 0;
+    display: inline-block;
+}
+
+.RichEditor-activeButton {
+    color: #5890ff;
+}

@@ -1,0 +1,64 @@
+/*
+* @Author: kevin
+* @Date:   2017-01-14 22:39:07
+* @Last Modified by:   kevin
+* @Last Modified time: 2017-01-14 22:39:22
+*/
+
+/**
+ * 文字大小包裹层
+ */
+.fontSize-controls {
+    position: relative;
+    width: 60px;
+    height: 26px;
+    line-height: 26px;
+    padding-left: 4px;
+    padding-right: 4px;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+/**
+ * 文字大小显示框
+ */
+.current-font-size {
+    height: 26px;
+    line-height: 26px;
+    display: inline-block;
+
+}
+
+/**
+ * 文字大小的下拉箭头
+ */
+.down-icon {
+    font-size: 6px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+/**
+ * 文字大小列表
+ */
+.fontSize-list {
+    border: 1px solid #ccc;
+    position: absolute;
+    left: -1px;
+    top: 24px;
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    li {
+        width: 100px;
+        text-align: center;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        background-color: #fff;
+        &:hover{
+            background-color: #ccc;
+        }
+    }
+}
