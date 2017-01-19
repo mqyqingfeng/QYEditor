@@ -2,7 +2,7 @@
  * @Author: kevin
  * @Date:   2016-12-30 16:17:17
  * @Last Modified by:   kevin
- * @Last Modified time: 2017-01-14 23:31:26
+ * @Last Modified time: 2017-01-15 00:21:53
  * @Description: 富文本编辑器
  */
 
@@ -19,11 +19,15 @@ import './scss/editor.scss';
 
 import { stateToHTML } from 'draft-js-export-html';
 
+
 import Immutable from 'immutable';
 
 import classNames from 'classnames';
 
 import InlineStyleControls from './components/InlineStyleControls.js';
+
+import FontSizeStyleControl, {fontSizeStyleMap} from './components/FontSizeControl.js';
+
 
 class MyEditor extends React.Component {
 
@@ -55,6 +59,8 @@ class MyEditor extends React.Component {
         this.onTab = (e) => this._onTab(e);
 
         this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
+
+        this.changeFontSizeStyle = this.changeFontSizeStyle.bind(this);
 
     }
 
@@ -109,11 +115,46 @@ class MyEditor extends React.Component {
 
     }
 
+    /**
+     * 改变内联样式包括加粗、斜体、下划线
+     * @param  {String} inlineStyle 内联样式
+     */
     _toggleInlineStyle(inlineStyle) {
 
         this.onChange(
             RichUtils.toggleInlineStyle(
                 this.state.editorState,
+                inlineStyle
+            )
+        );
+
+    }
+
+    /**
+     * 改变字体大小
+     * @param  {String} inlineStyle 字体大小样式
+     */
+    changeFontSizeStyle(inlineStyle) {
+
+        const { editorState } = this.state;
+        const selection = editorState.getSelection();
+
+        // 清除之前的样式
+        const nextContentState = Object.keys(fontSizeStyleMap)
+            .reduce((contentState, fontSize) => {
+                return Modifier.removeInlineStyle(contentState, selection, fontSize);
+            }, editorState.getCurrentContent());
+
+        // 由nextContentState产生新的editorState
+        let nextEditorState = EditorState.push(
+            editorState,
+            nextContentState,
+            'change-fontSize'
+        );
+
+        this.onChange(
+            RichUtils.toggleInlineStyle(
+                nextEditorState,
                 inlineStyle
             )
         );
@@ -135,6 +176,11 @@ class MyEditor extends React.Component {
         return (
             <div className="RichEditor-root">
 
+                <FontSizeStyleControl
+                    editorState={editorState}
+                    onToggle={this.changeFontSizeStyle}
+                />
+
                 <InlineStyleControls
                     editorState={editorState}
                     onToggle={this.toggleInlineStyle}
@@ -142,10 +188,11 @@ class MyEditor extends React.Component {
 
                 <div className={className} onClick={::this.focus}>
                     <Editor
+                        customStyleMap={fontSizeStyleMap}
                         editorState={editorState}
-                        handleKeyCommand={::this.handleKeyCommand}
-                        onChange={::this.onChange}
-                        onTab={::this.onTab}
+                        handleKeyCommand={this.handleKeyCommand}
+                        onChange={this.onChange}
+                        onTab={this.onTab}
                         placeholder=""
                         ref="editor"
                         spellCheck={true}
