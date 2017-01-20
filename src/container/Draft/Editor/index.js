@@ -2,7 +2,7 @@
  * @Author: kevin
  * @Date:   2016-12-30 16:17:17
  * @Last Modified by:   kevin
- * @Last Modified time: 2017-01-15 00:21:53
+ * @Last Modified time: 2017-01-15 01:04:04
  * @Description: 富文本编辑器
  */
 
@@ -27,6 +27,9 @@ import classNames from 'classnames';
 import InlineStyleControls from './components/InlineStyleControls.js';
 
 import FontSizeStyleControl, {fontSizeStyleMap} from './components/FontSizeControl.js';
+
+import BlockStyleControls, {getBlockStyle} from './components/BlockStyleControls.js';
+
 
 
 class MyEditor extends React.Component {
@@ -57,6 +60,8 @@ class MyEditor extends React.Component {
         this.onChange = (editorState) => this.setState({ editorState });
         this.handleKeyCommand = (command) => this._handleKeyCommand(command);
         this.onTab = (e) => this._onTab(e);
+
+        this.toggleBlockType = (type) => this._toggleBlockType(type);
 
         this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
 
@@ -130,6 +135,17 @@ class MyEditor extends React.Component {
 
     }
 
+    _toggleBlockType(blockType) {
+
+        this.onChange(
+            RichUtils.toggleBlockType(
+                this.state.editorState,
+                blockType
+            )
+        );
+
+    }
+
     /**
      * 改变字体大小
      * @param  {String} inlineStyle 字体大小样式
@@ -175,20 +191,26 @@ class MyEditor extends React.Component {
 
         return (
             <div className="RichEditor-root">
+                <div className="styleControl clearfix">
+                    <FontSizeStyleControl
+                        editorState={editorState}
+                        onToggle={this.changeFontSizeStyle}
+                    />
 
-                <FontSizeStyleControl
-                    editorState={editorState}
-                    onToggle={this.changeFontSizeStyle}
-                />
+                    <BlockStyleControls
+                        editorState={editorState}
+                        onToggle={this.toggleBlockType}
+                    />
 
-                <InlineStyleControls
-                    editorState={editorState}
-                    onToggle={this.toggleInlineStyle}
-                />
-
+                    <InlineStyleControls
+                        editorState={editorState}
+                        onToggle={this.toggleInlineStyle}
+                    />
+                </div>
                 <div className={className} onClick={::this.focus}>
                     <Editor
                         customStyleMap={fontSizeStyleMap}
+                        blockStyleFn={getBlockStyle}
                         editorState={editorState}
                         handleKeyCommand={this.handleKeyCommand}
                         onChange={this.onChange}

@@ -2,7 +2,7 @@
 * @Author: kevin
 * @Date:   2017-01-14 23:57:26
 * @Last Modified by:   kevin
-* @Last Modified time: 2017-01-15 00:34:52
+* @Last Modified time: 2017-01-15 01:02:56
 * @Description: file Description
 */
 
@@ -97,8 +97,6 @@ class FontSizeStyleControls extends React.Component {
             'fontSize-list': true,
             'hidden': !this.state.show
         });
-
-        var currentStyle = this.props.editorState.getCurrentInlineStyle();
 
         return (
             <div className="RichEditor-controls fontSize-controls" onMouseDown={::this.showFzList}>

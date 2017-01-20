@@ -2,7 +2,7 @@
 * @Author: kevin
 * @Date:   2016-12-30 17:00:08
 * @Last Modified by:   kevin
-* @Last Modified time: 2017-01-14 23:27:13
+* @Last Modified time: 2017-01-15 01:13:45
 */
 
 .editor-icon {
@@ -22,19 +22,32 @@
 
 @font-face {
   font-family: 'iconfont';  /* project id 219379 */
-  src: url('//at.alicdn.com/t/font_d6uflj47erpy14i.eot');
-  src: url('//at.alicdn.com/t/font_d6uflj47erpy14i.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_d6uflj47erpy14i.woff') format('woff'),
-  url('//at.alicdn.com/t/font_d6uflj47erpy14i.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_d6uflj47erpy14i.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_9l9c4cy5x07ctyb9.eot');
+  src: url('//at.alicdn.com/t/font_9l9c4cy5x07ctyb9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_9l9c4cy5x07ctyb9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_9l9c4cy5x07ctyb9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_9l9c4cy5x07ctyb9.svg#iconfont') format('svg');
 }
 
 // 全局重置样式
 ul {
     list-style: none;
 }
+
 .hidden {
     display: none;
+}
+
+.clearfix:after {
+    content: ' ';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfix {
+    zoom: 1;
 }
 
 .RichEditor-root {
@@ -42,10 +55,14 @@ ul {
     border: 1px solid #ddd;
     font-size: 14px;
     padding: 25px;
-
-    // ol {
-    //     list-style: decimal outside none;
-    // }
+    ul {
+        list-style: disc outside none;
+        padding-left: 15px;
+    }
+    ol {
+        list-style: decimal outside none;
+        padding-left: 15px;
+    }
 }
 
 /**
@@ -85,6 +102,11 @@ ul {
     background-color: rgba(0, 0, 0, 0.05);
     font-size: 16px;
     padding: 20px;
+    // 为了让code标签里的字换行
+    pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
 }
 
 .RichEditor-controls {
@@ -103,4 +125,8 @@ ul {
 
 .RichEditor-activeButton {
     color: #5890ff;
+}
+
+.RichEditor-controls {
+    float: left;
 }
