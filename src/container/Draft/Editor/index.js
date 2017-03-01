@@ -2,7 +2,7 @@
  * @Author: kevin
  * @Date:   2016-12-30 16:17:17
  * @Last Modified by:   kevin
- * @Last Modified time: 2017-01-15 01:04:04
+ * @Last Modified time: 2017-01-15 02:42:16
  * @Description: 富文本编辑器
  */
 
@@ -30,7 +30,9 @@ import FontSizeStyleControl, {fontSizeStyleMap} from './components/FontSizeContr
 
 import BlockStyleControls, {getBlockStyle} from './components/BlockStyleControls.js';
 
+import AlignControls, {blockRenderMap} from './components/AlignControls.js';
 
+const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 class MyEditor extends React.Component {
 
@@ -146,6 +148,17 @@ class MyEditor extends React.Component {
 
     }
 
+    test(e) {
+        e.preventDefault();
+
+        this.onChange(
+            RichUtils.toggleBlockType(
+                this.state.editorState,
+                'AlignRight'
+            )
+        );
+    }
+
     /**
      * 改变字体大小
      * @param  {String} inlineStyle 字体大小样式
@@ -202,15 +215,23 @@ class MyEditor extends React.Component {
                         onToggle={this.toggleBlockType}
                     />
 
+                    <AlignControls
+                        editorState={editorState}
+                        onToggle={this.toggleBlockType}
+                    />
+
                     <InlineStyleControls
                         editorState={editorState}
                         onToggle={this.toggleInlineStyle}
                     />
+
+                    <strong onMouseDown={::this.test}>测试</strong>
                 </div>
                 <div className={className} onClick={::this.focus}>
                     <Editor
                         customStyleMap={fontSizeStyleMap}
                         blockStyleFn={getBlockStyle}
+                        blockRenderMap={extendedBlockRenderMap}
                         editorState={editorState}
                         handleKeyCommand={this.handleKeyCommand}
                         onChange={this.onChange}

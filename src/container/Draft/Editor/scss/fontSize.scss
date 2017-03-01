@@ -2,7 +2,7 @@
 * @Author: kevin
 * @Date:   2017-01-14 22:39:07
 * @Last Modified by:   kevin
-* @Last Modified time: 2017-01-15 00:10:11
+* @Last Modified time: 2017-01-15 02:52:38
 */
 
 /**
@@ -20,6 +20,7 @@
     margin-right: 16px;
     cursor: pointer;
     float: left;
+
 }
 
 /**
@@ -49,10 +50,11 @@
     position: absolute;
     left: -1px;
     top: 24px;
-    padding-left: 0;
     margin-top: 0;
     margin-bottom: 0;
+    padding-left: 0;
     li {
+        list-style: none;
         width: 100px;
         text-align: center;
         padding-top: 4px;
@@ -62,4 +64,8 @@
             background-color: #ccc;
         }
     }
+}
+
+ul.fontSize-list {
+    padding-left: 0;
 }

@@ -2,7 +2,7 @@
 * @Author: kevin
 * @Date:   2016-12-30 17:00:08
 * @Last Modified by:   kevin
-* @Last Modified time: 2017-01-15 01:13:45
+* @Last Modified time: 2017-01-15 02:52:53
 */
 
 .editor-icon {
@@ -16,6 +16,21 @@
     transition: font-size 0.25s ease-out 0s;
     font-size: 20px;
     vertical-align: middle;
+}
+
+.RichEditor-root {
+    background: #fff;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    padding: 25px;
+    ul {
+        list-style: disc outside none;
+        padding-left: 15px;
+    }
+    ol {
+        list-style: decimal outside none;
+        padding-left: 15px;
+    }
 }
 
 @import "fontSize.scss";
@@ -50,20 +65,7 @@ ul {
     zoom: 1;
 }
 
-.RichEditor-root {
-    background: #fff;
-    border: 1px solid #ddd;
-    font-size: 14px;
-    padding: 25px;
-    ul {
-        list-style: disc outside none;
-        padding-left: 15px;
-    }
-    ol {
-        list-style: decimal outside none;
-        padding-left: 15px;
-    }
-}
+
 
 /**
  * 编辑器包裹层
@@ -129,4 +131,16 @@ ul {
 
 .RichEditor-controls {
     float: left;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-right {
+    text-align: right;
 }
