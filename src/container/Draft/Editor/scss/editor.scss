@@ -2,7 +2,7 @@
 * @Author: kevin
 * @Date:   2016-12-30 17:00:08
 * @Last Modified by:   kevin
-* @Last Modified time: 2017-01-15 02:52:53
+* @Last Modified time: 2017-01-17 11:26:39
 */
 
 .editor-icon {
@@ -37,11 +37,11 @@
 
 @font-face {
   font-family: 'iconfont';  /* project id 219379 */
-  src: url('//at.alicdn.com/t/font_9l9c4cy5x07ctyb9.eot');
-  src: url('//at.alicdn.com/t/font_9l9c4cy5x07ctyb9.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_9l9c4cy5x07ctyb9.woff') format('woff'),
-  url('//at.alicdn.com/t/font_9l9c4cy5x07ctyb9.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_9l9c4cy5x07ctyb9.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_ud7v1tfpy82dquxr.eot');
+  src: url('//at.alicdn.com/t/font_ud7v1tfpy82dquxr.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_ud7v1tfpy82dquxr.woff') format('woff'),
+  url('//at.alicdn.com/t/font_ud7v1tfpy82dquxr.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_ud7v1tfpy82dquxr.svg#iconfont') format('svg');
 }
 
 // 全局重置样式
@@ -143,4 +143,22 @@ ul {
 
 .align-right {
     text-align: right;
+}
+
+.hr {
+    width: 100%;
+    height: 0;
+    border-top: 1px solid #ccc;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+}
+
+figure {
+    margin: 20px 0;
+}
+
+.divider-icon {
+    color: #999;
+    cursor: pointer;
 }

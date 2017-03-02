@@ -1,14 +1,3 @@
-/*
- * @Author: kevin
- * @Date:   2016-12-30 16:17:17
- * @Last Modified by:   kevin
- * @Last Modified time: 2017-01-15 02:42:16
- * @Description: 富文本编辑器
- */
-
-
-'use strict';
-
 import React from 'react';
 
 import ReactDOM from 'react-dom';
@@ -19,20 +8,24 @@ import './scss/editor.scss';
 
 import { stateToHTML } from 'draft-js-export-html';
 
-
 import Immutable from 'immutable';
 
 import classNames from 'classnames';
 
 import InlineStyleControls from './components/InlineStyleControls.js';
 
-import FontSizeStyleControl, {fontSizeStyleMap} from './components/FontSizeControl.js';
+import FontSizeStyleControl, { fontSizeStyleMap } from './components/FontSizeControl.js';
 
-import BlockStyleControls, {getBlockStyle} from './components/BlockStyleControls.js';
+import BlockStyleControls, { getBlockStyle } from './components/BlockStyleControls.js';
 
-import AlignControls, {blockRenderMap} from './components/AlignControls.js';
+import AlignControls, { blockRenderMap } from './components/AlignControls.js';
+
+import DividerStyleControl, { dividerBlockRenderer } from './components/Divider.js';
+
 
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
+
+
 
 class MyEditor extends React.Component {
 
@@ -148,15 +141,59 @@ class MyEditor extends React.Component {
 
     }
 
+    createDivider(e) {
+        e.preventDefault();
+
+        const entityKey = Entity.create(
+            'HR',
+            'IMMUTABLE'
+        );
+
+        let neweditorState = AtomicBlockUtils.insertAtomicBlock(this.state.editorState, entityKey, ' ');
+
+        // let newState = EditorState.push(
+        //   this.state.editorState,
+        //   ContentState.createFromText('miaoqingyu'),
+        //   'insert-hr'
+        // )
+
+        // this.onChange(
+        //     newState
+        // );
+
+        this.setState({
+            editorState: neweditorState,
+        }, () => {
+            setTimeout(() => this.focus(), 0);
+        });
+    }
+
     test(e) {
         e.preventDefault();
 
-        this.onChange(
-            RichUtils.toggleBlockType(
-                this.state.editorState,
-                'AlignRight'
-            )
+        console.log(1)
+        const entityKey = Entity.create(
+            'HR',
+            'IMMUTABLE'
         );
+
+        let neweditorState = AtomicBlockUtils.insertAtomicBlock(this.state.editorState, entityKey, ' ');
+
+        // let newState = EditorState.push(
+        //   this.state.editorState,
+        //   ContentState.createFromText('miaoqingyu'),
+        //   'insert-hr'
+        // )
+
+        // this.onChange(
+        //     newState
+        // );
+
+        this.setState({
+            editorState: neweditorState,
+        }, () => {
+            setTimeout(() => this.focus(), 0);
+        });
     }
 
     /**
@@ -225,10 +262,13 @@ class MyEditor extends React.Component {
                         onToggle={this.toggleInlineStyle}
                     />
 
+                    <DividerStyleControl onToggle={::this.createDivider} />
+
                     <strong onMouseDown={::this.test}>测试</strong>
                 </div>
                 <div className={className} onClick={::this.focus}>
                     <Editor
+                        blockRendererFn={dividerBlockRenderer}
                         customStyleMap={fontSizeStyleMap}
                         blockStyleFn={getBlockStyle}
                         blockRenderMap={extendedBlockRenderMap}
