@@ -1,3 +1,11 @@
+/*
+* @Author: kevin
+* @Date:   2016-12-20 16:11:32
+* @Last Modified by:   kevin
+* @Last Modified time: 2017-01-14 22:33:23
+* @Description: main.js 入口文件
+*/
+
 import { AppContainer } from 'react-hot-loader';
 
 import React from 'react';

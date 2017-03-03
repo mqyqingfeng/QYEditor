@@ -1,14 +1,3 @@
-/*
- * @Author: kevin
- * @Date:   2017-01-15 00:41:25
- * @Last Modified by:   kevin
- * @Last Modified time: 2017-01-15 00:59:20
- * @Description: file Description
- */
-
-
-'use strict';
-
 import React from 'react';
 
 import ReactDOM from 'react-dom';

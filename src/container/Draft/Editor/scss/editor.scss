@@ -2,7 +2,7 @@
 * @Author: kevin
 * @Date:   2016-12-30 17:00:08
 * @Last Modified by:   kevin
-* @Last Modified time: 2017-01-17 11:26:39
+* @Last Modified time: 2017-01-17 16:39:04
 */
 
 .editor-icon {
@@ -37,11 +37,11 @@
 
 @font-face {
   font-family: 'iconfont';  /* project id 219379 */
-  src: url('//at.alicdn.com/t/font_ud7v1tfpy82dquxr.eot');
-  src: url('//at.alicdn.com/t/font_ud7v1tfpy82dquxr.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_ud7v1tfpy82dquxr.woff') format('woff'),
-  url('//at.alicdn.com/t/font_ud7v1tfpy82dquxr.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_ud7v1tfpy82dquxr.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_8nkfbegy73545cdi.eot');
+  src: url('//at.alicdn.com/t/font_8nkfbegy73545cdi.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_8nkfbegy73545cdi.woff') format('woff'),
+  url('//at.alicdn.com/t/font_8nkfbegy73545cdi.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_8nkfbegy73545cdi.svg#iconfont') format('svg');
 }
 
 // 全局重置样式
@@ -161,4 +161,109 @@ figure {
 .divider-icon {
     color: #999;
     cursor: pointer;
+    float: left;
+    margin-right: 15px;
 }
+
+.font-color-controls {
+    position: relative;
+    width: 90px;
+    height: 26px;
+    line-height: 26px;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-right: 5px;
+    margin-right: 16px;
+    cursor: pointer;
+    float: left;
+}
+
+.font-color-wrap {
+    padding: 0 10px 20px;
+    border: 1px solid #e7e6eb;
+    position: absolute;
+    top: 26px;
+    left: -1px;
+    width: 300px;
+    background-color: #fff;
+    color: #8e8e8e;
+}
+
+.font-color-control-btn {
+    height: 26px;
+    line-height: 26px;
+    display: inline-block;
+}
+
+.font-color-control-btn + .font-color-control-btn {
+    margin-left: 10px;
+}
+
+.colorBlock {
+    width: 25px;
+    height: 25px;
+    border: 1px solid #e7e6ec;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: 10px;
+    float: left;
+    display: block;
+}
+
+#font-color-list {
+    list-style: none;
+    padding-left: 0;
+    border-bottom: 1px dashed #e6e6e8;
+    padding-bottom: 10px;
+}
+
+.color-confirm-btn {
+    width: 40px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    border: 1px solid #e6e5ea;
+    border-radius: 3px;
+    float: right;
+    color: #3c3c3c;
+}
+
+.color-input {
+    height: 23px;
+    line-height: 23px;
+    outline: none;
+    border: 1px solid #e6e5ea;
+    -webkit-appearance: none;
+    padding-left: 10px;
+    font-size: 12px;
+    color: #3c3c3c;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

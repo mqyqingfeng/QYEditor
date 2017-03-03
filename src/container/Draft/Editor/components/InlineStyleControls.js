@@ -1,14 +1,3 @@
-/*
-* @Author: kevin
-* @Date:   2017-01-14 22:49:43
-* @Last Modified by:   kevin
-* @Last Modified time: 2017-01-14 23:24:21
-* @Description: 加粗、斜体、下划线组件
-*/
-
-
-'use strict';
-
 import React from 'react';
 
 import ReactDOM from 'react-dom';

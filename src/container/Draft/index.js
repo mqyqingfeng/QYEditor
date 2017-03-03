@@ -1,3 +1,11 @@
+/*
+* @Author: kevin
+* @Date:   2016-12-20 16:19:30
+* @Last Modified by:   kevin
+* @Last Modified time: 2017-01-14 23:33:58
+* @Description: Redux的包裹组件和React-router的使用
+*/
+
 import React from 'react';
 
 import ReactDOM from 'react-dom';

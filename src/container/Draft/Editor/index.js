@@ -1,3 +1,14 @@
+/*
+ * @Author: kevin
+ * @Date:   2016-12-30 16:17:17
+ * @Last Modified by:   kevin
+ * @Last Modified time: 2017-01-17 16:29:32
+ * @Description: 富文本编辑器
+ */
+
+
+'use strict';
+
 import React from 'react';
 
 import ReactDOM from 'react-dom';
@@ -22,10 +33,13 @@ import AlignControls, { blockRenderMap } from './components/AlignControls.js';
 
 import DividerStyleControl, { dividerBlockRenderer } from './components/Divider.js';
 
+import FontColorStyleControls from './components/FontColorControl.js';
+
 
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
-
+let choosedColor = {};
+let changeColorSelection = null;
 
 class MyEditor extends React.Component {
 
@@ -48,7 +62,8 @@ class MyEditor extends React.Component {
         }
 
         this.state = {
-            editorState: initialData
+            editorState: initialData,
+            customStyleMap: fontSizeStyleMap
         }
 
         this.focus = () => this.refs.editor.focus();
@@ -145,21 +160,11 @@ class MyEditor extends React.Component {
         e.preventDefault();
 
         const entityKey = Entity.create(
-            'HR',
+            'Divider',
             'IMMUTABLE'
         );
 
         let neweditorState = AtomicBlockUtils.insertAtomicBlock(this.state.editorState, entityKey, ' ');
-
-        // let newState = EditorState.push(
-        //   this.state.editorState,
-        //   ContentState.createFromText('miaoqingyu'),
-        //   'insert-hr'
-        // )
-
-        // this.onChange(
-        //     newState
-        // );
 
         this.setState({
             editorState: neweditorState,
@@ -168,32 +173,95 @@ class MyEditor extends React.Component {
         });
     }
 
-    test(e) {
-        e.preventDefault();
-
-        console.log(1)
-        const entityKey = Entity.create(
-            'HR',
-            'IMMUTABLE'
-        );
-
-        let neweditorState = AtomicBlockUtils.insertAtomicBlock(this.state.editorState, entityKey, ' ');
-
-        // let newState = EditorState.push(
-        //   this.state.editorState,
-        //   ContentState.createFromText('miaoqingyu'),
-        //   'insert-hr'
-        // )
-
-        // this.onChange(
-        //     newState
-        // );
+    handleChangeColor(color) {
 
         this.setState({
-            editorState: neweditorState,
+            currentColor: color
+        })
+
+        let addNewStyleMap = {
+            [color]: {
+                color: color,
+            },
+        }
+
+        if (!choosedColor[color]) {
+           choosedColor[color] = {
+                color: color
+           }
+        }
+
+
+        this.setState({
+            customStyleMap: Object.assign({}, fontSizeStyleMap, addNewStyleMap)
         }, () => {
-            setTimeout(() => this.focus(), 0);
+
+            this.changeColor(color);
+
         });
+
+    }
+
+    changeColor(color) {
+
+        const { editorState } = this.state;
+
+        let editorStatewithSelection = EditorState.forceSelection(
+            editorState,
+            changeColorSelection
+        )
+
+        const selection = editorStatewithSelection.getSelection();
+
+        // 清除之前的样式
+        const nextContentState = Object.keys(choosedColor)
+            .reduce((contentState, color) => {
+                return Modifier.removeInlineStyle(contentState, selection, color);
+            }, editorState.getCurrentContent());
+
+        // 由nextContentState产生新的editorState
+        let nextEditorState = EditorState.push(
+            editorState,
+            nextContentState,
+            'change-fontColor'
+        );
+
+
+
+        this.onChange(
+            RichUtils.toggleInlineStyle(
+                nextEditorState,
+                color
+            )
+        );
+
+        changeColorSelection = null;
+
+
+
+
+    }
+
+    test(e) {
+
+        e.preventDefault();
+
+        let addNewStyleMap = {
+            red: {
+                color: 'rgba(255, 0, 0, 1.0)',
+            },
+        }
+        this.setState({
+            customStyleMap: Object.assign({}, fontSizeStyleMap, addNewStyleMap)
+        }, () => {
+            this.onChange(
+                RichUtils.toggleInlineStyle(
+                    this.state.editorState,
+                    'red'
+                )
+            );
+        });
+
     }
 
     /**
@@ -224,6 +292,12 @@ class MyEditor extends React.Component {
                 inlineStyle
             )
         );
+
+    }
+
+    saveCurrentSelection() {
+
+        changeColorSelection = this.state.editorState.getSelection()
 
     }
 
@@ -264,12 +338,18 @@ class MyEditor extends React.Component {
 
                     <DividerStyleControl onToggle={::this.createDivider} />
 
+                    <FontColorStyleControls
+                        editorState={editorState}
+                        onToggle={::this.handleChangeColor}
+                        currentColor={this.state.currentColor}
+                        saveCurrentSelection={::this.saveCurrentSelection}
+                    />
                     <strong onMouseDown={::this.test}>测试</strong>
                 </div>
                 <div className={className} onClick={::this.focus}>
                     <Editor
                         blockRendererFn={dividerBlockRenderer}
-                        customStyleMap={fontSizeStyleMap}
+                        customStyleMap={this.state.customStyleMap}
                         blockStyleFn={getBlockStyle}
                         blockRenderMap={extendedBlockRenderMap}
                         editorState={editorState}
