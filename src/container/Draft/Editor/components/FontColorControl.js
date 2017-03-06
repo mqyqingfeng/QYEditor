@@ -13,6 +13,12 @@ const basicStyleMap = [
 	'#000000','#711b0a','#eb5c4b','#cfaa52','#4d751f','#3478a5','#071ea2','#787ba6','#9d2b42'
 ]
 
+// 将传递的类型值设置成常量
+const COLOR = 'color';
+const BGCOLOR = 'bgcolor';
+
+export {COLOR, BGCOLOR}
+
 class FontColorStyleControls extends React.Component {
 
     constructor() {
@@ -27,7 +33,7 @@ class FontColorStyleControls extends React.Component {
 
     onChoose(color) {
 
-        this.props.onToggle(color);
+        this.props.onToggle(color, this.state.showType);
 
         this.toggleFontColorList(false)
     }
@@ -40,9 +46,13 @@ class FontColorStyleControls extends React.Component {
 
     }
 
-    showFontColorList(e) {
+    showFontColorList = (type) => (e) => {
 
         e.preventDefault();
+
+        this.setState({
+        	showType: type
+        })
 
         this.props.saveCurrentSelection();
 
@@ -73,8 +83,12 @@ class FontColorStyleControls extends React.Component {
 
         return (
             <div className="RichEditor-controls font-color-controls">
-                <span className="font-color-control-btn" onMouseDown={::this.showFontColorList}>
+                <span className="font-color-control-btn" onMouseDown={this.showFontColorList(COLOR)}>
                 	<i className="editor-icon" dangerouslySetInnerHTML={{__html: '&#xea59;'}} style={{color: this.props.currentColor}}></i>
+                	<i className="editor-icon down-icon" dangerouslySetInnerHTML={{__html: '&#xe62c;'}}></i>
+                </span>
+                <span className="font-color-control-btn" onMouseDown={this.showFontColorList(BGCOLOR)}>
+                	<i className="editor-icon" dangerouslySetInnerHTML={{__html: '&#xe643;'}} style={{color: this.props.currentBgColor}}></i>
                 	<i className="editor-icon down-icon" dangerouslySetInnerHTML={{__html: '&#xe62c;'}}></i>
                 </span>
                 <div className={btnClass}>

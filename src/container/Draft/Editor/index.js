@@ -1,14 +1,3 @@
-/*
- * @Author: kevin
- * @Date:   2016-12-30 16:17:17
- * @Last Modified by:   kevin
- * @Last Modified time: 2017-01-17 16:29:32
- * @Description: 富文本编辑器
- */
-
-
-'use strict';
-
 import React from 'react';
 
 import ReactDOM from 'react-dom';
@@ -33,12 +22,13 @@ import AlignControls, { blockRenderMap } from './components/AlignControls.js';
 
 import DividerStyleControl, { dividerBlockRenderer } from './components/Divider.js';
 
-import FontColorStyleControls from './components/FontColorControl.js';
+import FontColorStyleControls, {COLOR, BGCOLOR} from './components/FontColorControl.js';
 
 
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 let choosedColor = {};
+let choosedBgColor = {};
 let changeColorSelection = null;
 
 class MyEditor extends React.Component {
@@ -63,7 +53,9 @@ class MyEditor extends React.Component {
 
         this.state = {
             editorState: initialData,
-            customStyleMap: fontSizeStyleMap
+            customStyleMap: fontSizeStyleMap,
+            currentColor: '#999',
+            currentBgColor: '#999'
         }
 
         this.focus = () => this.refs.editor.focus();
@@ -173,39 +165,71 @@ class MyEditor extends React.Component {
         });
     }
 
-    handleChangeColor(color) {
+    /**
+     * 处理文字颜色和背景色的改变
+     * @param  {String} color 文字的色值
+     * @param  {String} type  背景色的色值
+     */
+    handleChangeColor(color, type) {
 
-        this.setState({
-            currentColor: color
-        })
+        // 储存选择过的颜色，是为了在去除掉以前的样式中用
+        let addNewStyleMap = null;
 
-        let addNewStyleMap = {
-            [color]: {
-                color: color,
-            },
+        if (type == COLOR) {
+
+            this.setState({
+                currentColor: color
+            })
+
+            addNewStyleMap = {
+                [color]: {
+                    color: color,
+                }
+            }
+
+            if (!choosedColor[color]) {
+
+               choosedColor = {...choosedColor, ...addNewStyleMap}
+
+            }
+
+        }
+        else if(type == BGCOLOR){
+
+            this.setState({
+                currentBgColor: color
+            })
+
+            addNewStyleMap = {
+                ['bg-' + color]: {
+                    backgroundColor: color
+                }
+            }
+
+            if (!choosedBgColor['bg-' + color]) {
+
+               choosedBgColor = {...choosedBgColor, ...addNewStyleMap}
+            }
         }
 
-        if (!choosedColor[color]) {
-           choosedColor[color] = {
-                color: color
-           }
-        }
-
-
-        this.setState({
-            customStyleMap: Object.assign({}, fontSizeStyleMap, addNewStyleMap)
-        }, () => {
-
-            this.changeColor(color);
-
+        this.setState((prevState) => ({
+            customStyleMap: Object.assign({}, prevState.customStyleMap, addNewStyleMap)
+        }), () => {
+            this.changeColor(color, type);
         });
 
     }
 
-    changeColor(color) {
+    /**
+     * 改变字体颜色和背景色
+     * @param  {String} color 色值
+     * @param  {String} type  设置的类型
+     */
+    changeColor(color, type) {
 
         const { editorState } = this.state;
 
+        // 因为输入色值时会导致失焦，所以需要保存输入之前的选区，然后在这里重新选中。
         let editorStatewithSelection = EditorState.forceSelection(
             editorState,
             changeColorSelection
@@ -214,31 +238,29 @@ class MyEditor extends React.Component {
         const selection = editorStatewithSelection.getSelection();
 
         // 清除之前的样式
-        const nextContentState = Object.keys(choosedColor)
+        let reduceColor = type == COLOR && choosedColor || type == BGCOLOR && choosedBgColor;
+
+        const nextContentState = Object.keys(reduceColor)
             .reduce((contentState, color) => {
                 return Modifier.removeInlineStyle(contentState, selection, color);
             }, editorState.getCurrentContent());
 
         // 由nextContentState产生新的editorState
         let nextEditorState = EditorState.push(
-            editorState,
-            nextContentState,
-            'change-fontColor'
-        );
-
-
+                editorState,
+                nextContentState,
+                type == COLOR && 'change-fontColor' || type == BGCOLOR && 'change-fontBgColor'
+            );
 
         this.onChange(
             RichUtils.toggleInlineStyle(
                 nextEditorState,
-                color
+                type == COLOR && color || type == BGCOLOR && 'bg-' + color
             )
         );
 
+        // 重置储存的selection
         changeColorSelection = null;
-
-
-
 
     }
 
@@ -295,6 +317,9 @@ class MyEditor extends React.Component {
 
     }
 
+    /**
+     * 储存当前的selection
+     */
     saveCurrentSelection() {
 
         changeColorSelection = this.state.editorState.getSelection()
@@ -342,6 +367,7 @@ class MyEditor extends React.Component {
                         editorState={editorState}
                         onToggle={::this.handleChangeColor}
                         currentColor={this.state.currentColor}
+                        currentBgColor={this.state.currentBgColor}
                         saveCurrentSelection={::this.saveCurrentSelection}
                     />
                     <strong onMouseDown={::this.test}>测试</strong>

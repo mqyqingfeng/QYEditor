@@ -23,7 +23,7 @@ const DividerComponent = (props) => {
     const type = entity.getType();
 
     let media;
-    if (type === 'HR') {
+    if (type === 'Divider') {
         media = <Divider />;
     }
 
