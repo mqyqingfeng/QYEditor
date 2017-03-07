@@ -1,3 +1,14 @@
+/*
+ * @Author: kevin
+ * @Date:   2016-12-30 16:17:17
+ * @Last Modified by:   kevin
+ * @Last Modified time: 2017-01-18 14:39:53
+ * @Description: 富文本编辑器
+ */
+
+
+'use strict';
+
 import React from 'react';
 
 import ReactDOM from 'react-dom';
@@ -20,10 +31,9 @@ import BlockStyleControls, { getBlockStyle } from './components/BlockStyleContro
 
 import AlignControls, { blockRenderMap } from './components/AlignControls.js';
 
-import DividerStyleControl, { dividerBlockRenderer } from './components/Divider.js';
+import DividerAndMediaStyleControl, { dividerAndMediaBlockRenderer } from './components/DividerAndMedia.js';
 
 import FontColorStyleControls, {COLOR, BGCOLOR} from './components/FontColorControl.js';
-
 
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
@@ -268,21 +278,8 @@ class MyEditor extends React.Component {
 
         e.preventDefault();
 
-        let addNewStyleMap = {
-            red: {
-                color: 'rgba(255, 0, 0, 1.0)',
-            },
-        }
-        this.setState({
-            customStyleMap: Object.assign({}, fontSizeStyleMap, addNewStyleMap)
-        }, () => {
-            this.onChange(
-                RichUtils.toggleInlineStyle(
-                    this.state.editorState,
-                    'red'
-                )
-            );
-        });
+        console.log(1)
+        this.refs.fileInput.click();
 
     }
 
@@ -326,6 +323,67 @@ class MyEditor extends React.Component {
 
     }
 
+    /**
+     * 通过触发fileInput事件打开文件选择框
+     */
+    handleMedia = (type) => (e) => {
+
+        e.preventDefault();
+
+        this.refs.fileInput.click();
+
+        this.setState({
+            mediaType: type
+        })
+
+    }
+
+    /**
+     * 处理图片上传
+     * @param  {object} e 文件对象
+     */
+    handleFileInput(e) {
+
+        //需要自己处理上传方法
+        switch(true) {
+            case (this.state.mediaType == 'image'):
+                this.insertMedia('https://gw.alicdn.com/tps/TB1W_X6OXXXXXcZXVXXXXXXXXXX-400-400.png', 'image');
+                break;
+            case (this.state.mediaType == 'audio'):
+                this.insertMedia('http://dl.stream.qqmusic.qq.com/C400003piM753uRsvW.m4a?vkey=D6D649EBAE38947EA114304D84D5BBF07A588358D2B58A568D8AB15CC44CBA181AD6C206B69FC54D6FF7E57BB8C22ADDE48A13B1B49114CC&guid=6438067914&fromtag=30', 'audio');
+                break;
+            case ((this.state.mediaType == 'video')):
+                this.insertMedia('https://www.youtube.com/embed/feUYwoLhE_4', 'video');
+                break;
+            default:
+                alert('媒体类型出现错误');
+        }
+
+    }
+
+    /**
+     * 插入图片
+     * @param  {String} url 链接
+     * @param  {Sring} type  类型
+     */
+    insertMedia(url, type) {
+
+        const { editorState } = this.state;
+
+        const entityKey = Entity.create(type, 'IMMUTABLE', { src: url })
+
+        this.setState({
+            editorState: AtomicBlockUtils.insertAtomicBlock(
+                editorState,
+                entityKey,
+                ' '
+            )
+        }, () => {
+            setTimeout(() => this.focus(), 0);
+        });
+
+    }
+
     render() {
 
         const { editorState } = this.state;
@@ -346,6 +404,14 @@ class MyEditor extends React.Component {
                         onToggle={this.changeFontSizeStyle}
                     />
 
+                    <FontColorStyleControls
+                        editorState={editorState}
+                        onToggle={::this.handleChangeColor}
+                        currentColor={this.state.currentColor}
+                        currentBgColor={this.state.currentBgColor}
+                        saveCurrentSelection={::this.saveCurrentSelection}
+                    />
+
                     <BlockStyleControls
                         editorState={editorState}
                         onToggle={this.toggleBlockType}
@@ -361,20 +427,22 @@ class MyEditor extends React.Component {
                         onToggle={this.toggleInlineStyle}
                     />
 
-                    <DividerStyleControl onToggle={::this.createDivider} />
-
-                    <FontColorStyleControls
-                        editorState={editorState}
-                        onToggle={::this.handleChangeColor}
-                        currentColor={this.state.currentColor}
-                        currentBgColor={this.state.currentBgColor}
-                        saveCurrentSelection={::this.saveCurrentSelection}
+                    <DividerAndMediaStyleControl
+                        onCreateDivider={::this.createDivider}
+                        onHandleMidia={this.handleMedia}
                     />
+
                     <strong onMouseDown={::this.test}>测试</strong>
+                    <input
+                        type="file"
+                        ref="fileInput"
+                        style={{display: 'none'}}
+                        onChange={::this.handleFileInput}
+                    />
                 </div>
                 <div className={className} onClick={::this.focus}>
                     <Editor
-                        blockRendererFn={dividerBlockRenderer}
+                        blockRendererFn={dividerAndMediaBlockRenderer}
                         customStyleMap={this.state.customStyleMap}
                         blockStyleFn={getBlockStyle}
                         blockRenderMap={extendedBlockRenderMap}

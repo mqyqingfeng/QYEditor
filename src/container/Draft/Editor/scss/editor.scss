@@ -2,7 +2,7 @@
 * @Author: kevin
 * @Date:   2016-12-30 17:00:08
 * @Last Modified by:   kevin
-* @Last Modified time: 2017-01-17 16:39:04
+* @Last Modified time: 2017-01-18 14:39:11
 */
 
 .editor-icon {
@@ -16,6 +16,8 @@
     transition: font-size 0.25s ease-out 0s;
     font-size: 20px;
     vertical-align: middle;
+    color: #999;
+    cursor: pointer;
 }
 
 .RichEditor-root {
@@ -37,11 +39,11 @@
 
 @font-face {
   font-family: 'iconfont';  /* project id 219379 */
-  src: url('//at.alicdn.com/t/font_8nkfbegy73545cdi.eot');
-  src: url('//at.alicdn.com/t/font_8nkfbegy73545cdi.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_8nkfbegy73545cdi.woff') format('woff'),
-  url('//at.alicdn.com/t/font_8nkfbegy73545cdi.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_8nkfbegy73545cdi.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_hk4gp4z00um1jor.eot');
+  src: url('//at.alicdn.com/t/font_hk4gp4z00um1jor.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_hk4gp4z00um1jor.woff') format('woff'),
+  url('//at.alicdn.com/t/font_hk4gp4z00um1jor.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_hk4gp4z00um1jor.svg#iconfont') format('svg');
 }
 
 // 全局重置样式
@@ -167,7 +169,7 @@ figure {
 
 .font-color-controls {
     position: relative;
-    width: 90px;
+    width: 80px;
     height: 26px;
     line-height: 26px;
     padding-left: 4px;
@@ -239,16 +241,9 @@ figure {
     color: #3c3c3c;
 }
 
-
-
-
-
-
-
-
-
-
-
+.media-icon {
+    margin-right: 15px;
+}
 
 
 
